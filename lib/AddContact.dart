@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'detail-contact.dart';
 
-class Contact extends StatefulWidget {
+class AddContact extends StatefulWidget {
   String name;
   String phone;
 
-  Contact({this.name, this.phone});
+  AddContact({this.name, this.phone});
 
   @override
   State<StatefulWidget> createState() {
-    return _Contact();
+    return _AddContact();
   }
 }
 
-class _Contact extends State<Contact> {
+class _AddContact extends State<AddContact> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final nameEdittingController = TextEditingController();
   final phoneEdittingController = TextEditingController();
@@ -34,11 +34,30 @@ class _Contact extends State<Contact> {
 
   @override
   Widget build(BuildContext context) {
-    print('listContact $listContact');
+    final title = 'Add Contact';
+
     return MaterialApp(
         title: 'Contact Page',
         home: Scaffold(
             key: _scaffoldKey,
+            appBar: AppBar(
+              title: Text(title),
+              leading: Builder(
+                builder: (BuildContext _context) {
+                  return IconButton(
+                    icon: const Icon(Icons.arrow_back_ios),
+                    onPressed: () {
+                      Navigator.pop(
+                          context,
+                          DetailContact(
+                              name: contact.name, phone: contact.phone));
+                    },
+                    tooltip:
+                        MaterialLocalizations.of(_context).openAppDrawerTooltip,
+                  );
+                },
+              ),
+            ),
             body: SafeArea(
               minimum: EdgeInsets.symmetric(horizontal: 20),
               child: Center(
@@ -82,16 +101,16 @@ class _Contact extends State<Contact> {
                       color: Colors.pink[200],
                       textColor: Colors.blueGrey[700],
                       onPressed: () {
-                        listContact.add(DetailContact(
-                            name: contact.name, phone: contact.phone));
-                        _scaffoldKey.currentState.showSnackBar(SnackBar(
-                          content: Text(contact.toString()),
-                          duration: Duration(seconds: 3),
-                        ));
-                        setState(() {
-                          nameEdittingController.text = '';
-                          phoneEdittingController.text = '';
-                        });
+                        if (contact.name != '' && contact.phone != '') {
+                          setState(() {
+                            nameEdittingController.clear();
+                            phoneEdittingController.clear();
+                          });
+                          Navigator.pop(
+                              context,
+                              DetailContact(
+                                  name: contact.name, phone: contact.phone));
+                        }
                       },
                     ),
                   ],

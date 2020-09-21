@@ -1,6 +1,11 @@
+import 'package:Day1/ListContact.dart';
 import 'package:flutter/material.dart';
-import 'contact.dart';
 
 void main() {
-  runApp(Contact());
+  runApp(MaterialApp(
+    title: '',
+    home: ListContact(
+      listContact: [],
+    ),
+  ));
 }
