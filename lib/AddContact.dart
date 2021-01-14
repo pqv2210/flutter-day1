@@ -37,7 +37,7 @@ class _AddContact extends State<AddContact> {
     final title = 'Add Contact';
 
     return MaterialApp(
-        title: 'Contact Page',
+        title: title,
         home: Scaffold(
             key: _scaffoldKey,
             appBar: AppBar(
@@ -96,22 +96,25 @@ class _AddContact extends State<AddContact> {
                         labelText: 'Enter phone',
                       ),
                     ),
-                    FlatButton(
-                      child: Text('Add Transection'),
-                      color: Colors.pink[200],
-                      textColor: Colors.blueGrey[700],
-                      onPressed: () {
-                        if (contact.name != '' && contact.phone != '') {
-                          setState(() {
-                            nameEdittingController.clear();
-                            phoneEdittingController.clear();
-                          });
-                          Navigator.pop(
-                              context,
-                              DetailContact(
-                                  name: contact.name, phone: contact.phone));
-                        }
-                      },
+                    Container(
+                      margin: const EdgeInsets.only(top: 15),
+                      child: new FlatButton(
+                        child: Text('Add Contact'),
+                        color: Colors.pink[200],
+                        textColor: Colors.white,
+                        onPressed: () {
+                          if (contact.name != '' && contact.phone != '') {
+                            setState(() {
+                              nameEdittingController.clear();
+                              phoneEdittingController.clear();
+                            });
+                            Navigator.pop(
+                                context,
+                                DetailContact(
+                                    name: contact.name, phone: contact.phone));
+                          }
+                        },
+                      ),
                     ),
                   ],
                 ),
