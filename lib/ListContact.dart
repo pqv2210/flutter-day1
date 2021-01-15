@@ -30,33 +30,37 @@ class _ListContact extends State<ListContact> {
           appBar: AppBar(
             title: Text(title),
           ),
-          body: ListView.builder(
-            itemCount: this.widget.listContact.length,
-            itemBuilder: (context, index) {
-              final name = this.widget.listContact[index].name;
-              return ListTile(
-                  title: Text('$name'),
-                  leading: GestureDetector(
-                    child: Container(
-                      width: 50,
-                      height: 50,
-                      padding: EdgeInsets.symmetric(vertical: 5),
-                      alignment: Alignment.center,
-                      child: CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              'https://placeimg.com/640/480/any/$name')),
+          body: RefreshIndicator(
+            onRefresh: _pullRefresh,
+            child: ListView.builder(
+              itemCount: this.widget.listContact.length,
+              itemBuilder: (context, index) {
+                final name = this.widget.listContact[index].name;
+                return ListTile(
+                    title: Text('$name'),
+                    leading: GestureDetector(
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        padding: EdgeInsets.symmetric(vertical: 5),
+                        alignment: Alignment.center,
+                        child: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                'https://placeimg.com/640/480/any/$name')),
+                      ),
                     ),
-                  ),
-                  onLongPress: () {
-                    _showAlert(context, index);
-                  },
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Info(name: name)),
-                    );
-                  });
-            },
+                    onLongPress: () {
+                      _showAlert(context, index);
+                    },
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Info(name: name)),
+                      );
+                    });
+              },
+            ),
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
@@ -114,6 +118,12 @@ class _ListContact extends State<ListContact> {
   void _removeContact(int index) async {
     this.setState(() {
       this.widget.listContact.removeAt(index);
+    });
+  }
+
+  Future<void> _pullRefresh() async {
+    return this.setState(() {
+      this.widget.listContact = [];
     });
   }
 }
